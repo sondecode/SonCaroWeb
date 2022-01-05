@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" class="app-header">
+    <div><a href="#" target="_blank" class="positronx">SonCaro App</a></div>
+    <span class="nav-tool-items" *ngIf="is_login('access_token') === null">
+      <a mat-button routerLink="signin" routerLinkActive="active">Signin</a>
+      <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Signup</a>
+    </span>
+    <span class="nav-tool-items" *ngIf="is_login('access_token') != null">
+        <a mat-button routerLink="logout" routerLinkActive="active">Logout</a>
+      </span>
+  </mat-toolbar>
+
+  

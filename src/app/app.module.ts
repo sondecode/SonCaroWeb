@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatchComponent } from './components/match/match.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SonCaroRealtime } from './services/son-caro-realtime.service';
+import { NavComponent } from './components/nav/nav.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -29,6 +30,7 @@ export function tokenGetter() {
     SigninComponent,
     RegisterComponent,
     LogoutComponent,
+    NavComponent,
     MainLayoutComponent,
     RoomComponent,
     MatchComponent,
