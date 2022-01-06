@@ -14,6 +14,7 @@ export class SonCaroRealtime {
 
   public messageSource = new BehaviorSubject(null);
   public chatSource =new BehaviorSubject(null);
+  public stepSource =new BehaviorSubject(null);
 
   public sendChat(message: any){
     this.chatSource.next(message);
@@ -21,6 +22,9 @@ export class SonCaroRealtime {
 
   public sendMessage(message: any) {
     this.messageSource.next(message);
+  }
+  public sendStep(message: any){
+    this.stepSource.next(message);
   }
 
   constructor() {
@@ -52,6 +56,13 @@ export class SonCaroRealtime {
     this.hubConnection.on('chat-online', (message: any) => {
       //console.log(message);
       this.sendChat(message);
+    });
+  }
+
+  public addTransferStepOnlineListener = () => {
+    this.hubConnection.on('step-online', (message: any) => {
+      //console.log(message);
+      this.sendStep(message);
     });
   }
 }

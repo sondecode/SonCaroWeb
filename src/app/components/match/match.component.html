@@ -5,7 +5,7 @@
         <div mat-subheader>
           <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="16px" fxLayoutAlign="center"
             style="width: 100%">
-            <div fxFlex style="line-height: 40px; color: #3f3d56">Phòng 01</div>
+            <div fxFlex style="line-height: 40px; color: #3f3d56">{{currentRoomName}}</div>
             <div fxFlex="40px">
               <button mat-icon-button style="color: #3f3d56" (click)="leaveRoom()">
                 <mat-icon>exit_to_app</mat-icon>
@@ -24,13 +24,9 @@
       <!-- Danh sách người chơi  -->
         <mat-list style="width: 100%; overflow: auto;">
           <div mat-subheader>Danh sách hàng chờ</div>
-    
-          <mat-list-item matRipple *ngFor="let user of queuePlayer">
-            <img mat-list-icon src="assets/icon/Creative-Tail-Animal-bat.svg" class="icon-style">
-            <div mat-line><label class="title">{{ user.name }} - {{ (true === user.status)? "Online": "Offline"}}</label>
-            </div>
-            <div mat-line> {{ user.score }} </div>
-          </mat-list-item>
+          <button mat-raised-button (click)="joinMatch()">Vào chơi</button>
+          <mat-list-item>X: {{firstUser}}</mat-list-item>
+          <mat-list-item>O: {{secondUser}}</mat-list-item>
         </mat-list>
     
       <mat-divider [vertical]="true"></mat-divider>
@@ -63,13 +59,14 @@
   
     <!-- Màn hình trận đấu -->
   <div fxFlex="70%" class="right-room">
-    <mat-list>
-      <div mat-subheader>TRẬN ĐẤU</div>
-    </mat-list>
+    <mat-list></mat-list>
 
     <div style="height: calc(100vh - 185px)">
       <mat-grid-list cols="20" rowHeight="1:1">
-        <mat-grid-tile *ngFor="let item of boardChess" matRipple></mat-grid-tile>
+        <mat-grid-tile *ngFor="let item of boardChess" matRipple>
+          <div *ngIf="item.player==1">X</div>
+          <div *ngIf="item.player==2">O</div>
+        </mat-grid-tile>
       </mat-grid-list>
     </div>
 

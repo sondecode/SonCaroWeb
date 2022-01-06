@@ -74,6 +74,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         return;
       // đã đồng ý
       localStorage.setItem('roomId', room.id);
+      localStorage.setItem('roomName', room.name);
       localStorage.setItem('userId', this.decodedToken.id);
       this._SonCaroApi.joinRoom(this.decodedToken.id, room.id).subscribe((result: any) => {
         this.goToNav('main/match');

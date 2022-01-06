@@ -18,15 +18,20 @@ export class MatchComponent implements OnInit {
     icon: "assets/icon/Creative-Tail-Animal-gorilla.svg",
     name: ""
   }
-
+  public currentRoomName = localStorage.getItem("roomName");
+  public firstUser = localStorage.getItem("firstUser");
+  public secondUser = localStorage.getItem("secondUser");
   public messages: any[] = [];
   public queuePlayer: User[] = [];
 
   public tempMessage = "";
   public observerMessageSubcription: Subscription | undefined;
+  public observerStepSubcription: Subscription | undefined;
 
   // ma trận tham chiếu bàn cờ
   public boardChess: any[] = [];
+  public currentRoomId = localStorage.getItem('roomId');
+  public currentUserId = localStorage.getItem('userId');
 
   constructor(
     private _SonCaroApi: SonCaroApi,
@@ -43,7 +48,7 @@ export class MatchComponent implements OnInit {
         this.boardChess.push({
           x: i,
           y: j,
-          mark: false,
+          mark: true,
           player: null
         });
       }
@@ -51,7 +56,6 @@ export class MatchComponent implements OnInit {
    }
   ngOnInit(): void {
     this.onMessageListener();
-    this.onPlayerListener();
   }
 
   public isLogin(): boolean {
@@ -59,16 +63,20 @@ export class MatchComponent implements OnInit {
 
     return true;
   }
-
+  
   // Chỉ gọi hàm này trong trường hợp là mình tự đăng lên 1 đoạn chat
 
+  public joinMatch(){
+    this._SonCaroApi.joinMatch(this.currentUserId, this.currentRoomId).subscribe(
+      (response: any) =>{
+        console.log(response);
+      },(error: any) => {}
+    )
 
+  }
 
   public sendMessage(event: any) {
-    let currentRoomId = localStorage.getItem('roomId');
-    let currentUserId = localStorage.getItem('userId');
-
-    this._SonCaroApi.sendMessage(currentUserId, currentRoomId, event.target.value).subscribe(
+    this._SonCaroApi.sendMessage(this.currentUserId, this.currentRoomId, event.target.value).subscribe(
       (response: any) =>{
         this.tempMessage = '';
       },(error: any) => {}
@@ -83,14 +91,6 @@ export class MatchComponent implements OnInit {
     // this.messages.push(newMessage); 
     // this.tempMessage = "";
   }
-
-  public onPlayerListener() {
-    this.observerMessageSubcription = this._SonCaroRealtime.messageSource.asObservable().subscribe((data: any) => {
-      this.queuePlayer = data;
-      this.queuePlayer = this.queuePlayer?.filter(x => x.status === true);
-    });
-  }
-
   public onMessageListener(){
     this.observerMessageSubcription = this._SonCaroRealtime.chatSource.asObservable().subscribe((data: any) => {
       //console.log(data);
@@ -121,6 +121,7 @@ export class MatchComponent implements OnInit {
       }
    });
   }
+
 
   public funcTest() {
     return "Đây là biểu thức kiểm tra!";

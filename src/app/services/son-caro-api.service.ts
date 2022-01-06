@@ -25,6 +25,7 @@ export class SonCaroApi {
     public joinRoom = (userId: string, roomId: string) => this.http.post(`${environment.caroDomain}/api/UserRoom`,
       { userId: userId, roomId: roomId }
     );
+    public joinMatch = (userId: any, roomId: any) => this.http.get(`${environment.caroDomain}/api/Room/${userId}/${roomId}`, { responseType: 'text' });
 
     public leaveRoom = (userId: string, roomId: string) => this.http.delete(`${environment.caroDomain}/api/UserRoom/${userId}/${roomId}`, { responseType: 'text' });
 
